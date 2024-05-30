@@ -1,0 +1,98 @@
+.Sign-in-container {
+    background: url("../../assets/images/background.jpg") no-repeat center;
+    background-size: cover;
+    .form-sign-up {
+        max-width: 28rem;
+        border-radius: 10px;
+    }
+
+    .sign-up-content {
+        max-width: 350px;
+    }
+
+    .wrap-input {
+        position: relative;
+        input {
+            width: 100%;
+            outline: none;
+            border: none;
+            border-bottom: 2px solid #d9d9d9;
+            height: 48px;
+            &:focus + .icon::before {
+                width: 100%;
+            }
+        }
+
+        .icon {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+
+            &::before {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 0;
+                height: 1.2px;
+                background-color: #7f7f7f;
+                transition: all 0.5s;
+            }
+        }
+    }
+
+    .wrap-btn {
+        position: relative;
+        display: block;
+        width: 100%;
+        z-index: 1;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 5px 30px 0 rgba(3, 216, 222, 0.2);
+        &:hover .background-btn {
+            left: 0;
+        }
+
+        .btn-sign-in {
+            height: 50px;
+            width: 100%;
+            text-transform: uppercase;
+            color: white !important;
+        }
+
+        .background-btn {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            z-index: -1;
+            width: 300%;
+            height: 100%;
+            background: -webkit-linear-gradient(
+                right,
+                #00dbde,
+                #fc00ff,
+                #00dbde,
+                #fc00ff
+            );
+            transition: all 0.5s;
+        }
+    }
+
+    .btn-forgot-password,
+    .btn-sign-up {
+        color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
+        background-color: transparent;
+        border: none;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .btn-google:hover,
+    .btn-facebook:hover {
+        opacity: 0.8;
+    }
+}

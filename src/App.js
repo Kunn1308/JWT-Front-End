@@ -1,5 +1,7 @@
 import "./App.scss";
 import SignIn from "./components/SignIn/SignIn";
+import SignUp from "./components/SignUp/SignUp";
+import Nav from "./components/Navigation/Nav";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 function App() {
     return (
@@ -12,7 +14,8 @@ function App() {
                     <Route path="/contact" element={<h1>Contact</h1>} />
                     <Route path="/about" element={<h1>About</h1>} />
                     <Route path="/signin" element={<SignIn />} />
-                    <Route path="*" element={<h1>404 not found</h1>} />
+                    <Route path="/signup" element={<SignUp />} />
+                    <Route path="*" errorElement={<h1>404 not found</h1>} />
                 </Routes>
             </div>
         </Router>

@@ -1,17 +1,18 @@
-.Sign-in-container {
+.Sign-up-container {
     background: url("../../assets/images/background.jpg") no-repeat center;
     background-size: cover;
     .form-sign-up {
-        max-width: 28rem;
+        max-width: 40rem;
         border-radius: 10px;
     }
 
     .sign-up-content {
-        max-width: 350px;
+        max-width: 34.375rem;
     }
 
     .wrap-input {
         position: relative;
+        width: 47%;
         input {
             width: 100%;
             outline: none;
@@ -49,6 +50,23 @@
                 transition: all 0.5s;
             }
         }
+        .from-select-gender {
+            background-color: transparent;
+            position: relative;
+            z-index: 1;
+            &:hover + .background-select {
+                background: -webkit-linear-gradient(left, #d4f1f1, #edcaed);
+            }
+        }
+        .background-select {
+            position: absolute;
+            top: 33%;
+            left: 0;
+            bottom: 11px;
+            border-radius: 6px;
+            width: 100%;
+            background: -webkit-linear-gradient(left, #eefbfb, #ffeaff);
+        }
     }
 
     .wrap-btn {
@@ -63,7 +81,7 @@
             left: 0;
         }
 
-        .btn-sign-in {
+        .btn-sign-up {
             height: 50px;
             width: 100%;
             text-transform: uppercase;
@@ -89,7 +107,7 @@
     }
 
     .btn-forgot-password,
-    .btn-sign-up {
+    .btn-sign-in {
         color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
         background-color: transparent;
         border: none;

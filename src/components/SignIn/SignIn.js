@@ -1,13 +1,18 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import "./SignIn.scss";
 import { FacebookIcon, GoogleIcon } from "../Icons/Icons";
+import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
+    let navigate = useNavigate();
+    const handleSignUp = () => {
+        navigate("/signup");
+    };
     return (
         <div className="Sign-in-container">
             <div className="vh-100 d-flex justify-content-end">
                 <div className="content col-6 d-flex flex-column justify-content-center align-items-center">
-                    <div className="form-sign-up bg-white w-100 p-3">
+                    <div className="form-sign-up bg-white w-100 pt-5">
                         <div className="sign-up-content d-flex flex-column m-auto gap-3">
                             <div className="wrap-input">
                                 <input
@@ -35,7 +40,10 @@ const SignIn = () => {
                             </div>
                             <div className="text-center">
                                 <span>Don't have an account?</span>
-                                <button className="ms-2 btn-sign-up">
+                                <button
+                                    onClick={() => handleSignUp()}
+                                    className="ms-2 btn-sign-up"
+                                >
                                     Sign up
                                 </button>
                             </div>

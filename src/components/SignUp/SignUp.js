@@ -1,11 +1,31 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import { useState } from "react";
 import "./SignUp.scss";
 import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [gender, setGender] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmpassword, setConfirmpassword] = useState("");
+
     let navigate = useNavigate();
     const handleSignIn = () => {
         navigate("/signin");
+    };
+
+    const handleSignUp = () => {
+        let formData = {
+            username,
+            email,
+            phone,
+            gender,
+            password,
+            confirmpassword,
+        };
+        console.log(formData);
     };
     return (
         <div className="Sign-up-container">
@@ -19,6 +39,10 @@ const SignUp = () => {
                                     id="username"
                                     type="text"
                                     placeholder="Username"
+                                    value={username}
+                                    onChange={(e) =>
+                                        setUsername(e.target.value)
+                                    }
                                 />
                                 <span className="icon"></span>
                             </div>
@@ -28,6 +52,8 @@ const SignUp = () => {
                                     id="email"
                                     type="text"
                                     placeholder="Email address"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                                 <span className="icon"></span>
                             </div>
@@ -39,14 +65,23 @@ const SignUp = () => {
                                         id="phone"
                                         type="text"
                                         placeholder="Phone"
+                                        value={phone}
+                                        onChange={(e) =>
+                                            setPhone(e.target.value)
+                                        }
                                     />
                                     <span className="icon"></span>
                                 </div>
 
                                 <div className="wrap-input">
                                     <label>Gender</label>
-                                    <select className="from-select-gender form-select">
-                                        <option>Please select</option>
+                                    <select
+                                        className="from-select-gender form-select"
+                                        onChange={(e) =>
+                                            setGender(e.target.value)
+                                        }
+                                    >
+                                        <option value="">Please select</option>
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
                                     </select>
@@ -58,9 +93,13 @@ const SignUp = () => {
                                 <div className="wrap-input">
                                     <label htmlFor="password">Password</label>
                                     <input
-                                        id="password    "
+                                        id="password"
                                         type="password"
                                         placeholder="Password"
+                                        value={password}
+                                        onChange={(e) =>
+                                            setPassword(e.target.value)
+                                        }
                                     />
                                     <span className="icon"></span>
                                 </div>
@@ -72,6 +111,10 @@ const SignUp = () => {
                                         id="confirm password    "
                                         type="password"
                                         placeholder="Confirm Password"
+                                        value={confirmpassword}
+                                        onChange={(e) =>
+                                            setConfirmpassword(e.target.value)
+                                        }
                                     />
                                     <span className="icon"></span>
                                 </div>
@@ -79,7 +122,10 @@ const SignUp = () => {
 
                             <div className="wrap-btn w-50 align-self-center mt-3">
                                 <div className="background-btn"></div>
-                                <button className="btn btn-sign-up fw-medium">
+                                <button
+                                    className="btn btn-sign-up fw-medium"
+                                    onClick={() => handleSignUp()}
+                                >
                                     Sign Up
                                 </button>
                             </div>

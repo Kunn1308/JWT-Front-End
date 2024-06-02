@@ -2,21 +2,12 @@
 import "./SignIn.scss";
 import { FacebookIcon, GoogleIcon } from "../Icons/Icons";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useEffect } from "react";
 
 const SignIn = () => {
     let navigate = useNavigate();
     const handleSignUp = () => {
         navigate("/signup");
     };
-
-    useEffect(() => {
-        axios.get("http://localhost:8080/api/test-api").then((data) => {
-            console.log(data);
-        });
-    }, []);
-
     return (
         <div className="Sign-in-container">
             <div className="vh-100 d-flex justify-content-end">

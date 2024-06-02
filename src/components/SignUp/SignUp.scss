@@ -2,73 +2,21 @@
     background: url("../../assets/images/background.jpg") no-repeat center;
     background-size: cover;
     .form-sign-up {
-        max-width: 40rem;
+        max-width: 28rem;
         border-radius: 10px;
     }
 
     .sign-up-content {
-        max-width: 34.375rem;
+        max-width: 350px;
     }
 
     .wrap-input {
         position: relative;
-        width: 47%;
-        input {
-            width: 100%;
-            outline: none;
-            border: none;
-            padding: 0 12px;
-            border-radius: 6px;
-            background: -webkit-linear-gradient(left, #eefbfb, #ffeaff);
+        input,
+        select {
             height: 48px;
-            &:focus + .icon::before {
-                width: 100%;
-            }
-
-            &:hover {
-                background: -webkit-linear-gradient(left, #d4f1f1, #edcaed);
-            }
-        }
-
-        .icon {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-
-            &::before {
-                content: "";
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                width: 0;
-                height: 100%;
-                border-bottom: 2px solid #d8d8d8;
-                border-radius: 6px;
-                transition: all 0.5s;
-            }
-        }
-        .from-select-gender {
-            background-color: transparent;
-            position: relative;
-            z-index: 1;
-            &:hover + .background-select {
-                background: -webkit-linear-gradient(left, #d4f1f1, #edcaed);
-            }
-        }
-        .background-select {
-            position: absolute;
-            top: 33%;
-            left: 0;
-            bottom: 11px;
-            border-radius: 6px;
-            width: 100%;
-            background: -webkit-linear-gradient(left, #eefbfb, #ffeaff);
         }
     }
-
     .wrap-btn {
         position: relative;
         display: block;

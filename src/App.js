@@ -3,6 +3,8 @@ import SignIn from "./components/SignIn/SignIn";
 import SignUp from "./components/SignUp/SignUp";
 import Nav from "./components/Navigation/Nav";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function App() {
     return (
         <Router>
@@ -18,6 +20,19 @@ function App() {
                     <Route path="*" errorElement={<h1>404 not found</h1>} />
                 </Routes>
             </div>
+
+            <ToastContainer
+                position="bottom-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         </Router>
     );
 }

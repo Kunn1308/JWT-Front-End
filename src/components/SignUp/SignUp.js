@@ -2,7 +2,7 @@
 import { useState } from "react";
 import "./SignUp.scss";
 import { useNavigate } from "react-router-dom";
-
+import { toast } from "react-toastify";
 const SignUp = () => {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -16,7 +16,36 @@ const SignUp = () => {
         navigate("/signin");
     };
 
+    const isValidated = () => {
+        if (!username) {
+            toast.error("Username is required");
+            return false;
+        }
+        if (!email) {
+            toast.error("Email is required");
+            return false;
+        }
+        if (!phone) {
+            toast.error("Phone is required");
+            return false;
+        }
+        if (!gender) {
+            toast.error("Gender is required");
+            return false;
+        }
+        if (!password) {
+            toast.error("Password is required");
+            return false;
+        }
+        if (password !== confirmpassword) {
+            toast.error("Your password is not the same");
+            return false;
+        }
+        return true;
+    };
     const handleSignUp = () => {
+        let check = isValidated();
+
         let formData = {
             username,
             email,

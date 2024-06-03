@@ -2,12 +2,40 @@
 import "./SignIn.scss";
 import { FacebookIcon, GoogleIcon } from "../Icons/Icons";
 import { useNavigate } from "react-router-dom";
-
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { SignIpUser } from "../../services/userService";
 const SignIn = () => {
+    const [valueSignIn, setValueSignIn] = useState("");
+    const [password, setPassword] = useState("");
+    const defaultValidInput = {
+        isSignIn: true,
+        isPassword: true,
+    };
+    const [objCheckInput, setObjCheckInput] = useState(defaultValidInput);
+
     let navigate = useNavigate();
     const handleSignUp = () => {
         navigate("/signup");
     };
+
+    const handleSignIn = async () => {
+        setObjCheckInput(defaultValidInput);
+        if (!valueSignIn) {
+            setObjCheckInput({ ...defaultValidInput, isSignIn: false });
+            toast.error("Please enter your email address or phone number");
+            return;
+        }
+
+        if (!password) {
+            setObjCheckInput({ ...defaultValidInput, isPassword: false });
+            toast.error("Please enter your password");
+            return;
+        }
+
+        let response = await SignIpUser(valueSignIn, password);
+    };
+
     return (
         <div className="Sign-in-container">
             <div className="vh-100 d-flex justify-content-end">
@@ -17,12 +45,33 @@ const SignIn = () => {
                             <div className="wrap-input">
                                 <input
                                     type="text"
+                                    className={
+                                        objCheckInput.isSignIn
+                                            ? "form-control"
+                                            : "form-control is-invalid"
+                                    }
                                     placeholder="Email address or phone number"
+                                    value={valueSignIn}
+                                    onChange={(e) =>
+                                        setValueSignIn(e.target.value)
+                                    }
                                 />
                                 <span className="icon"></span>
                             </div>
-                            <div className="wrap-input ">
-                                <input type="password" placeholder="Password" />
+                            <div className="wrap-input">
+                                <input
+                                    type="password"
+                                    className={
+                                        objCheckInput.isPassword
+                                            ? "form-control"
+                                            : "form-control is-invalid"
+                                    }
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(e) =>
+                                        setPassword(e.target.value)
+                                    }
+                                />
                                 <span className="icon"></span>
                             </div>
                             <a
@@ -34,8 +83,13 @@ const SignIn = () => {
 
                             <div className="wrap-btn">
                                 <div className="background-btn"></div>
-                                <button className="btn btn-sign-in fw-medium">
-                                    Login
+                                <button
+                                    className="btn btn-sign-in fw-medium"
+                                    onClick={() => {
+                                        handleSignIn();
+                                    }}
+                                >
+                                    Sign In
                                 </button>
                             </div>
                             <div className="text-center">

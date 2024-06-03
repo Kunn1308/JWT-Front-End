@@ -4,6 +4,7 @@ import "./SignUp.scss";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { signUpNewUser } from "../../services/userService";
 const SignUp = () => {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -70,15 +71,38 @@ const SignUp = () => {
         }
         return true;
     };
-    const handleSignUp = () => {
+    const handleSignUp = async () => {
         let check = isValidated();
         if (check === true) {
-            axios.post("http://localhost:8080/api/v1/signup", {
+            let response = await signUpNewUser(
                 username,
                 email,
                 phone,
-                password,
-            });
+                password
+            );
+            let serverData = response.data;
+            if (+serverData.EC === 0) {
+                toast.success(serverData.EM);
+                navigate("/signin");
+            } else {
+                toast.error(serverData.EM);
+                switch (serverData.DT) {
+                    case "email":
+                        setObjCheckInput({
+                            ...defaultValidinput,
+                            isValidEmail: false,
+                        });
+                        break;
+                    case "phone":
+                        setObjCheckInput({
+                            ...defaultValidinput,
+                            isValidPhone: false,
+                        });
+                        break;
+                    default:
+                        setObjCheckInput(defaultValidinput);
+                }
+            }
         }
     };
     return (

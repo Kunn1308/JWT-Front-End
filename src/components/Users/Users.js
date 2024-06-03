@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Users(props) {
-    const [account, setAccount] = useState({});
-
     let navigate = useNavigate();
 
     useEffect(() => {

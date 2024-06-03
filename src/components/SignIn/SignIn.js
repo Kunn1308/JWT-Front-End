@@ -34,6 +34,22 @@ const SignIn = () => {
         }
 
         let response = await SignIpUser(valueSignIn, password);
+
+        if (response && response.data && +response.data.EC === 0) {
+            toast.success(response.data.EM);
+            let data = {
+                isAuthenticated: true,
+                token: "fake-token",
+            };
+            sessionStorage.setItem("account", JSON.stringify(data));
+            navigate("/users");
+            window.location.reload();
+        }
+
+        if (response && response.data && +response.data.EC !== 0) {
+            toast.error(response.data.EM);
+            setObjCheckInput({ isSignIn: false, isPassword: false });
+        }
     };
 
     return (

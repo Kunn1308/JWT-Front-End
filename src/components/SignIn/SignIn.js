@@ -2,7 +2,7 @@
 import "./SignIn.scss";
 import { FacebookIcon, GoogleIcon } from "../Icons/Icons";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { SignIpUser } from "../../services/userService";
 const SignIn = () => {
@@ -52,6 +52,20 @@ const SignIn = () => {
         }
     };
 
+    const handlePressEnter = (e) => {
+        if (e.keyCode === 13 && e.key === "Enter") {
+            handleSignIn();
+        }
+    };
+
+    useEffect(() => {
+        let session = sessionStorage.getItem("account");
+        if (session) {
+            navigate("/");
+            window.location.reload();
+        }
+    }, []);
+
     return (
         <div className="Sign-in-container">
             <div className="vh-100 d-flex justify-content-end">
@@ -87,6 +101,7 @@ const SignIn = () => {
                                     onChange={(e) =>
                                         setPassword(e.target.value)
                                     }
+                                    onKeyDown={(e) => handlePressEnter(e)}
                                 />
                                 <span className="icon"></span>
                             </div>

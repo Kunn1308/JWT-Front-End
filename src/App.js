@@ -1,38 +1,17 @@
 import "./App.scss";
-import SignIn from "./components/SignIn/SignIn";
-import SignUp from "./components/SignUp/SignUp";
-import Users from "./components/Users/Users";
 import Nav from "./components/Navigation/Nav";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useEffect, useState } from "react";
-import _ from "lodash";
+import AppRoutes from "./routes/AppRoutes";
 function App() {
-    const [account, setAccount] = useState({});
-
-    useEffect(() => {
-        let session = sessionStorage.getItem("account");
-        if (session) {
-            setAccount(JSON.parse(session));
-        }
-    }, []);
     return (
         <Router>
+            <div className="app-header">
+                <Nav />
+            </div>
             <div className="app-container">
-                {account && !_.isEmpty(account) && account.isAuthenticated && (
-                    <Nav />
-                )}
-                <Routes>
-                    <Route path="/" element={<h1>Home</h1>} />
-                    <Route path="/news" element={<h1>News</h1>} />
-                    <Route path="/contact" element={<h1>Contact</h1>} />
-                    <Route path="/about" element={<h1>About</h1>} />
-                    <Route path="/signin" element={<SignIn />} />
-                    <Route path="/signup" element={<SignUp />} />
-                    <Route path="/users" element={<Users />} />
-                    <Route path="*" errorElement={<h1>404 not found</h1>} />
-                </Routes>
+                <AppRoutes />
             </div>
 
             <ToastContainer

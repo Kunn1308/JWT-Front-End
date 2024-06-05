@@ -8,6 +8,7 @@ const PrivateRoutes = ({ Component }) => {
             navigate("/signin");
             window.location.reload();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return <Component />;
 };

@@ -1,18 +1,29 @@
 import { useEffect, useState } from "react";
 import { fetchAllUser } from "../../services/userService";
+import ReactPaginate from "react-paginate";
 function Users(props) {
     const [listUsers, setListUser] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    // eslint-disable-next-line no-unused-vars
+    const [currentLimit, setcurrentLimit] = useState(2);
+    const [totalPages, setTotalPages] = useState(0);
 
     useEffect(() => {
         fetchUsers();
-    }, []);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentPage]);
 
     const fetchUsers = async () => {
-        let response = await fetchAllUser();
+        let response = await fetchAllUser(currentPage, currentLimit);
         if (response && response.data && response.data.EC === 0) {
-            setListUser(response.data.DT);
+            setTotalPages(response.data.DT.totalPages);
+            setListUser(response.data.DT.users);
         } else {
         }
+    };
+
+    const handlePageClick = (event) => {
+        setCurrentPage(+event.selected + 1);
     };
 
     return (
@@ -62,6 +73,29 @@ function Users(props) {
                             )}
                         </tbody>
                     </table>
+                </div>
+
+                <div className="user-footer">
+                    <ReactPaginate
+                        nextLabel="next >"
+                        onPageChange={handlePageClick}
+                        pageRangeDisplayed={3}
+                        marginPagesDisplayed={2}
+                        pageCount={totalPages}
+                        previousLabel="< previous"
+                        pageClassName="page-item"
+                        pageLinkClassName="page-link"
+                        previousClassName="page-item"
+                        previousLinkClassName="page-link"
+                        nextClassName="page-item"
+                        nextLinkClassName="page-link"
+                        breakLabel="..."
+                        breakClassName="page-item"
+                        breakLinkClassName="page-link"
+                        containerClassName="pagination"
+                        activeClassName="active"
+                        renderOnZeroPageCount={null}
+                    />
                 </div>
             </div>
         </div>

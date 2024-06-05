@@ -15,7 +15,9 @@ const SignIpUser = (valueSignIn, password) => {
     });
 };
 
-const fetchAllUser = () => {
-    return axios.get("http://localhost:8080/api/v1/user/show");
+const fetchAllUser = (page, limit) => {
+    return axios.get(
+        `http://localhost:8080/api/v1/user/show?page=${page}&limit=${limit}`
+    );
 };
 export { signUpNewUser, SignIpUser, fetchAllUser };

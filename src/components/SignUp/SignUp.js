@@ -1,9 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./SignUp.scss";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import axios from "axios";
 import { signUpNewUser } from "../../services/userService";
 const SignUp = () => {
     const [username, setUsername] = useState("");
@@ -24,12 +23,6 @@ const SignUp = () => {
     const handleSignIn = () => {
         navigate("/signin");
     };
-
-    // useEffect(() => {
-    //     axios.get("http://localhost:8080/api/v1/test-api").then((data) => {
-    //         console.log(data);
-    //     });
-    // }, []);
 
     const isValidated = () => {
         setObjCheckInput(defaultValidinput);

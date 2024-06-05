@@ -1,6 +1,6 @@
 import SignIn from "../components/SignIn/SignIn";
 import SignUp from "../components/SignUp/SignUp";
-import Users from "../components/Users/Users";
+import Users from "../components/ManageUsers/Users";
 import { Routes, Route } from "react-router-dom";
 import PrivateRoutes from "./PrivateRoutes";
 const AppRoutes = () => {

@@ -7,10 +7,12 @@ const Nav = ({ children }) => {
     const [isShow, setIsShow] = useState(true);
 
     useEffect(() => {
+        // eslint-disable-next-line no-unused-vars
         let session = sessionStorage.getItem("account");
         if (location.pathname === "/signin") {
             setIsShow(false);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

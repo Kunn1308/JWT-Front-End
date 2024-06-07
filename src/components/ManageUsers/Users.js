@@ -3,6 +3,7 @@ import { fetchAllUser, deleteUser } from "../../services/userService";
 import ReactPaginate from "react-paginate";
 import ModalDelete from "./ModalDelete";
 import { toast } from "react-toastify";
+import ModalUser from "./ModalUser";
 function Users(props) {
     const [listUsers, setListUser] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -22,7 +23,6 @@ function Users(props) {
         if (response && response.data && response.data.EC === 0) {
             setTotalPages(response.data.DT.totalPages);
             setListUser(response.data.DT.users);
-            console.log(response.data.DT);
             if (response.data.DT.users.length === 0 && currentPage > 1) {
                 setCurrentPage(currentPage - 1);
             }
@@ -156,6 +156,8 @@ function Users(props) {
                 confirmDelete={confirmDelete}
                 dataModal={dataModal}
             />
+
+            <ModalUser title={"Create new user"} />
         </>
     );
 }

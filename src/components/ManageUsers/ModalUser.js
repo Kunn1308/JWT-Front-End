@@ -3,12 +3,12 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import "./Users.scss";
 import { fetchGroup, createNewUser } from "../../services/userService";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useLayoutEffect } from "react";
 import { toast } from "react-toastify";
 import _ from "lodash";
 import { HideIcon, ShowIcon } from "../Icons/Icons";
 
-const ModalUser = ({ title, show, onHide, fetchUsers }) => {
+const ModalUser = ({ show, onHide, actions, dataModalUser }) => {
     const [userGroups, setUserGroups] = useState([]);
 
     const defaultUserData = {
@@ -37,6 +37,23 @@ const ModalUser = ({ title, show, onHide, fetchUsers }) => {
     useEffect(() => {
         getGroups();
     }, []);
+
+    useLayoutEffect(() => {
+        if (actions === "UPDATE") {
+            setUserData({
+                ...dataModalUser,
+                groupId: dataModalUser.Group ? dataModalUser.Group.id : "",
+            });
+        }
+    }, [dataModalUser]);
+
+    useEffect(() => {
+        if (actions === "CREATE") {
+            if (userGroups && userGroups.length > 0) {
+                setUserData({ ...userData, groupId: userGroups[0].id });
+            }
+        }
+    }, [actions]);
 
     const getGroups = async () => {
         let res = await fetchGroup();
@@ -85,7 +102,7 @@ const ModalUser = ({ title, show, onHide, fetchUsers }) => {
             let res = await createNewUser(userData);
             if (res && res.data && res.data.EC === 0) {
                 toast.success(res.data.EM);
-                await fetchUsers();
+
                 onHide();
                 setUserData({ ...defaultUserData, groupId: userGroups[0].id });
             } else {
@@ -101,12 +118,23 @@ const ModalUser = ({ title, show, onHide, fetchUsers }) => {
         setShowPassword(!showPassword);
     };
 
+    const handleCloseModalUser = () => {
+        onHide();
+        setUserData(defaultUserData);
+        setValidInput(validInputDefaults);
+    };
+
     return (
         <>
-            <Modal size="lg" show={show} className="modal-user" onHide={onHide}>
+            <Modal
+                size="lg"
+                show={show}
+                className="modal-user"
+                onHide={() => handleCloseModalUser()}
+            >
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
-                        {title}
+                        {actions === "CREATE" ? "Create new user" : "Edit user"}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -116,6 +144,7 @@ const ModalUser = ({ title, show, onHide, fetchUsers }) => {
                                 Email address (<span className="red">*</span>) :
                             </label>
                             <input
+                                disabled={actions === "CREATE" ? false : true}
                                 className={
                                     validInput.email
                                         ? "form-control"
@@ -134,6 +163,7 @@ const ModalUser = ({ title, show, onHide, fetchUsers }) => {
                                 Phone number (<span className="red">*</span>) :
                             </label>
                             <input
+                                disabled={actions === "CREATE" ? false : true}
                                 className={
                                     validInput.phone
                                         ? "form-control"
@@ -169,37 +199,47 @@ const ModalUser = ({ title, show, onHide, fetchUsers }) => {
                         </div>
 
                         <div className="col-6 form-group">
-                            <label>
-                                Password (<span className="red">*</span>) :
-                            </label>
-                            <div className="input-password d-flex">
-                                <input
-                                    className={
-                                        validInput.password
-                                            ? "form-control"
-                                            : "form-control is-invalid"
-                                    }
-                                    type={showPassword ? "text" : "password"}
-                                    value={userData.password}
-                                    onChange={(e) =>
-                                        handleOnChangeInput(
-                                            e.target.value,
-                                            "password"
-                                        )
-                                    }
-                                />
-                                <button
-                                    className="btn-show-password"
-                                    onClick={() => handleShowHidePassword()}
-                                >
-                                    {showPassword ? (
-                                        <ShowIcon className="show-password" />
-                                    ) : (
-                                        <HideIcon className="hide-password" />
-                                    )}
-                                </button>
-                                {/*  */}
-                            </div>
+                            {actions === "CREATE" && (
+                                <>
+                                    <label>
+                                        Password (<span className="red">*</span>
+                                        ) :
+                                    </label>
+                                    <div className="input-password d-flex">
+                                        <input
+                                            className={
+                                                validInput.password
+                                                    ? "form-control"
+                                                    : "form-control is-invalid"
+                                            }
+                                            type={
+                                                showPassword
+                                                    ? "text"
+                                                    : "password"
+                                            }
+                                            value={userData.password}
+                                            onChange={(e) =>
+                                                handleOnChangeInput(
+                                                    e.target.value,
+                                                    "password"
+                                                )
+                                            }
+                                        />
+                                        <button
+                                            className="btn-show-password"
+                                            onClick={() =>
+                                                handleShowHidePassword()
+                                            }
+                                        >
+                                            {showPassword ? (
+                                                <ShowIcon className="show-password" />
+                                            ) : (
+                                                <HideIcon className="hide-password" />
+                                            )}
+                                        </button>
+                                    </div>
+                                </>
+                            )}
                         </div>
 
                         <div className="col-12 form-group">
@@ -227,6 +267,7 @@ const ModalUser = ({ title, show, onHide, fetchUsers }) => {
                                         "gender"
                                     )
                                 }
+                                value={userData.gender || ""}
                             >
                                 <option value="">-- Select Gender --</option>
                                 <option value="male">Male</option>
@@ -250,6 +291,7 @@ const ModalUser = ({ title, show, onHide, fetchUsers }) => {
                                         "groupId"
                                     )
                                 }
+                                value={userData.groupId || ""}
                             >
                                 {userGroups.length > 0 &&
                                     userGroups.map((group, index) => {
@@ -267,8 +309,13 @@ const ModalUser = ({ title, show, onHide, fetchUsers }) => {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={() => handleConfirmUser()}>Save</Button>
-                    <Button variant="secondary" onClick={() => onHide()}>
+                    <Button onClick={() => handleConfirmUser()}>
+                        {actions === "CREATE" ? "Save" : "Update"}
+                    </Button>
+                    <Button
+                        variant="secondary"
+                        onClick={() => handleCloseModalUser()}
+                    >
                         Close
                     </Button>
                 </Modal.Footer>

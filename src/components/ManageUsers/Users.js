@@ -10,10 +10,15 @@ function Users(props) {
     // eslint-disable-next-line no-unused-vars
     const [currentLimit, setcurrentLimit] = useState(2);
     const [totalPages, setTotalPages] = useState(0);
+
+    //modal delete
     const [isShowModalDelete, setIsShowModalDelete] = useState(false);
     const [dataModal, setDataModal] = useState({});
 
+    //modal create/update
     const [isShowModalUser, setIsShowModalUser] = useState(false);
+    const [actions, setActions] = useState("");
+    const [dataModalUser, setDataModalUser] = useState({});
 
     useEffect(() => {
         fetchUsers();
@@ -57,8 +62,15 @@ function Users(props) {
         }
     };
 
-    const onHide = () => {
+    const onHide = async () => {
         setIsShowModalUser(false);
+        await fetchUsers();
+    };
+
+    const handleEditUser = (user) => {
+        setDataModalUser(user);
+        setIsShowModalUser(true);
+        setActions("UPDATE");
     };
 
     return (
@@ -70,7 +82,10 @@ function Users(props) {
                         <button className="btn btn-success">Refresh</button>
                         <button
                             className="btn btn-primary"
-                            onClick={() => setIsShowModalUser(true)}
+                            onClick={() => {
+                                setIsShowModalUser(true);
+                                setActions("CREATE");
+                            }}
                         >
                             Add New User
                         </button>
@@ -93,7 +108,12 @@ function Users(props) {
                                         {listUsers.map((user, index) => {
                                             return (
                                                 <tr key={`row-${index}`}>
-                                                    <td>{index + 1}</td>
+                                                    <td>
+                                                        {(currentPage - 1) *
+                                                            currentLimit +
+                                                            index +
+                                                            1}
+                                                    </td>
                                                     <td>{user.id}</td>
                                                     <td>{user.email}</td>
                                                     <td>{user.username}</td>
@@ -103,7 +123,14 @@ function Users(props) {
                                                             : ""}
                                                     </td>
                                                     <td>
-                                                        <button className="btn btn-warning">
+                                                        <button
+                                                            className="btn btn-warning"
+                                                            onClick={() =>
+                                                                handleEditUser(
+                                                                    user
+                                                                )
+                                                            }
+                                                        >
                                                             Edit
                                                         </button>
                                                         <button
@@ -172,10 +199,10 @@ function Users(props) {
             />
 
             <ModalUser
-                title={"Create new user"}
                 show={isShowModalUser}
                 onHide={onHide}
-                fetchUsers={fetchUsers}
+                actions={actions}
+                dataModalUser={dataModalUser}
             />
         </>
     );

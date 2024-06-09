@@ -3,5 +3,17 @@
         .red {
             color: red;
         }
+        .input-password {
+            position: relative;
+            .btn-show-password {
+                position: absolute;
+                top: -2px;
+                right: 0;
+                padding: 0 12px;
+                height: 100%;
+                background-color: transparent;
+                border: none;
+            }
+        }
     }
 }

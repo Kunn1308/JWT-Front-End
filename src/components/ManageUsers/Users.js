@@ -13,6 +13,8 @@ function Users(props) {
     const [isShowModalDelete, setIsShowModalDelete] = useState(false);
     const [dataModal, setDataModal] = useState({});
 
+    const [isShowModalUser, setIsShowModalUser] = useState(false);
+
     useEffect(() => {
         fetchUsers();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -55,6 +57,10 @@ function Users(props) {
         }
     };
 
+    const onHide = () => {
+        setIsShowModalUser(false);
+    };
+
     return (
         <>
             <div className="container">
@@ -62,7 +68,10 @@ function Users(props) {
                     <div className="user-header">
                         <h3>Table User:</h3>
                         <button className="btn btn-success">Refresh</button>
-                        <button className="btn btn-primary">
+                        <button
+                            className="btn btn-primary"
+                            onClick={() => setIsShowModalUser(true)}
+                        >
                             Add New User
                         </button>
                     </div>
@@ -144,6 +153,11 @@ function Users(props) {
                             breakLinkClassName="page-link"
                             containerClassName="pagination"
                             activeClassName="active"
+                            forcePage={
+                                currentPage > 0
+                                    ? Math.min(currentPage - 1, totalPages - 1)
+                                    : currentPage
+                            }
                             renderOnZeroPageCount={null}
                         />
                     </div>
@@ -157,7 +171,12 @@ function Users(props) {
                 dataModal={dataModal}
             />
 
-            <ModalUser title={"Create new user"} />
+            <ModalUser
+                title={"Create new user"}
+                show={isShowModalUser}
+                onHide={onHide}
+                fetchUsers={fetchUsers}
+            />
         </>
     );
 }

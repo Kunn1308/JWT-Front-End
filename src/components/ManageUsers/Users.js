@@ -4,11 +4,18 @@ import ReactPaginate from "react-paginate";
 import ModalDelete from "./ModalDelete";
 import { toast } from "react-toastify";
 import ModalUser from "./ModalUser";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faArrowsRotate,
+    faPencil,
+    faCirclePlus,
+} from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 function Users(props) {
     const [listUsers, setListUser] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     // eslint-disable-next-line no-unused-vars
-    const [currentLimit, setcurrentLimit] = useState(2);
+    const [currentLimit, setcurrentLimit] = useState(5);
     const [totalPages, setTotalPages] = useState(0);
 
     //modal delete
@@ -77,9 +84,14 @@ function Users(props) {
         <>
             <div className="container">
                 <div className="manage-users-container">
-                    <div className="user-header">
-                        <h3>Table User:</h3>
-                        <button className="btn btn-success">Refresh</button>
+                    <div className="user-header mb-3">
+                        <h3 className="my-3">Manage Users</h3>
+                        <button className="btn btn-success me-2">
+                            <FontAwesomeIcon icon={faArrowsRotate} />
+                            <span className="ms-2" onClick={() => fetchUsers()}>
+                                Refresh
+                            </span>
+                        </button>
                         <button
                             className="btn btn-primary"
                             onClick={() => {
@@ -87,7 +99,8 @@ function Users(props) {
                                 setActions("CREATE");
                             }}
                         >
-                            Add New User
+                            <FontAwesomeIcon icon={faCirclePlus} />
+                            <span className="ms-2">Add new User</span>
                         </button>
                     </div>
                     <div className="user-body">
@@ -124,24 +137,30 @@ function Users(props) {
                                                     </td>
                                                     <td>
                                                         <button
-                                                            className="btn btn-warning"
+                                                            className="btn-edit me-3"
                                                             onClick={() =>
                                                                 handleEditUser(
                                                                     user
                                                                 )
                                                             }
                                                         >
-                                                            Edit
+                                                            <FontAwesomeIcon
+                                                                icon={faPencil}
+                                                            />
                                                         </button>
                                                         <button
-                                                            className="btn btn-danger ms-3"
+                                                            className="btn-delete "
                                                             onClick={() =>
                                                                 handleDeleteUser(
                                                                     user
                                                                 )
                                                             }
                                                         >
-                                                            Delete
+                                                            <FontAwesomeIcon
+                                                                icon={
+                                                                    faTrashCan
+                                                                }
+                                                            />
                                                         </button>
                                                     </td>
                                                 </tr>

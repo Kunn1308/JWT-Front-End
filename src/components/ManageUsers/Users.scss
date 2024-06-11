@@ -17,3 +17,21 @@
         }
     }
 }
+
+.container {
+    .user-body {
+        .btn-edit {
+            background: transparent;
+            border: none;
+            color: orange;
+            font-size: 20px;
+        }
+
+        .btn-delete {
+            background: transparent;
+            border: none;
+            color: red;
+            font-size: 20px;
+        }
+    }
+}

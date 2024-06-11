@@ -2,7 +2,11 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import "./Users.scss";
-import { fetchGroup, createNewUser } from "../../services/userService";
+import {
+    fetchGroup,
+    createNewUser,
+    updateUser,
+} from "../../services/userService";
 import { useEffect, useState, useLayoutEffect } from "react";
 import { toast } from "react-toastify";
 import _ from "lodash";
@@ -42,7 +46,11 @@ const ModalUser = ({ show, onHide, actions, dataModalUser }) => {
         if (actions === "UPDATE") {
             setUserData({
                 ...dataModalUser,
-                groupId: dataModalUser.Group ? dataModalUser.Group.id : "",
+                groupId: dataModalUser.Group
+                    ? dataModalUser.Group.id
+                    : userGroups && userGroups.length > 0
+                    ? userGroups[0].id
+                    : "",
             });
         }
     }, [dataModalUser]);
@@ -74,11 +82,13 @@ const ModalUser = ({ show, onHide, actions, dataModalUser }) => {
     };
 
     const checkValidInputs = () => {
+        if (actions === "UPDATE") return true;
         setValidInput(validInputDefaults);
         let arr = ["email", "phone", "username", "password", "groupId"];
         let regx = /\S+@\S+\.\S+/;
         let _validInput = _.cloneDeep(validInputDefaults);
         return arr.every((item, index) => {
+            console.log(item);
             if (!userData[item]) {
                 _validInput[item] = false;
                 setValidInput(_validInput);
@@ -98,13 +108,21 @@ const ModalUser = ({ show, onHide, actions, dataModalUser }) => {
 
     const handleConfirmUser = async () => {
         let check = checkValidInputs();
-        if (check) {
-            let res = await createNewUser(userData);
+        if (check === true) {
+            let res =
+                actions === "CREATE"
+                    ? await createNewUser(userData)
+                    : await updateUser(userData);
             if (res && res.data && res.data.EC === 0) {
                 toast.success(res.data.EM);
-
                 onHide();
-                setUserData({ ...defaultUserData, groupId: userGroups[0].id });
+                setUserData({
+                    ...defaultUserData,
+                    groupId:
+                        userGroups && userGroups.length > 0
+                            ? userGroups[0].id
+                            : "",
+                });
             } else {
                 toast.error(res.data.EM);
                 let _validInput = _.cloneDeep(validInputDefaults);
@@ -247,7 +265,7 @@ const ModalUser = ({ show, onHide, actions, dataModalUser }) => {
                             <input
                                 className="form-control"
                                 type="text"
-                                value={userData.address}
+                                value={userData.address || ""}
                                 onChange={(e) =>
                                     handleOnChangeInput(
                                         e.target.value,

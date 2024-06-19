@@ -65,13 +65,13 @@ const ModalUser = ({ show, onHide, actions, dataModalUser }) => {
 
     const getGroups = async () => {
         let res = await fetchGroup();
-        if (res && res.data && res.data.EC === 0) {
-            setUserGroups(res.data.DT);
-            if (res.data.DT && res.data.DT.length > 0) {
-                setUserData({ ...userData, groupId: res.data.DT[0].id });
+        if (res && res.EC === 0) {
+            setUserGroups(res.DT);
+            if (res.DT && res.DT.length > 0) {
+                setUserData({ ...userData, groupId: res.DT[0].id });
             }
         } else {
-            toast.error(res.data.EM);
+            toast.error(res.EM);
         }
     };
 
@@ -88,7 +88,6 @@ const ModalUser = ({ show, onHide, actions, dataModalUser }) => {
         let regx = /\S+@\S+\.\S+/;
         let _validInput = _.cloneDeep(validInputDefaults);
         return arr.every((item, index) => {
-            console.log(item);
             if (!userData[item]) {
                 _validInput[item] = false;
                 setValidInput(_validInput);
@@ -113,8 +112,8 @@ const ModalUser = ({ show, onHide, actions, dataModalUser }) => {
                 actions === "CREATE"
                     ? await createNewUser(userData)
                     : await updateUser(userData);
-            if (res && res.data && res.data.EC === 0) {
-                toast.success(res.data.EM);
+            if (res && res.EC === 0) {
+                toast.success(res.EM);
                 onHide();
                 setUserData({
                     ...defaultUserData,
@@ -124,9 +123,9 @@ const ModalUser = ({ show, onHide, actions, dataModalUser }) => {
                             : "",
                 });
             } else {
-                toast.error(res.data.EM);
+                toast.error(res.EM);
                 let _validInput = _.cloneDeep(validInputDefaults);
-                _validInput[res.data.DT] = false;
+                _validInput[res.DT] = false;
                 setValidInput(_validInput);
             }
         }

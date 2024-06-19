@@ -73,7 +73,7 @@ const SignUp = () => {
                 phone,
                 password
             );
-            let serverData = response.data;
+            let serverData = response;
             if (+serverData.EC === 0) {
                 toast.success(serverData.EM);
                 navigate("/signin");

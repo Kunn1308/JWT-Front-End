@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import "./SignIn.scss";
 import { FacebookIcon, GoogleIcon } from "../Icons/Icons";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { SignIpUser } from "../../services/userService";
@@ -35,8 +35,8 @@ const SignIn = () => {
 
         let response = await SignIpUser(valueSignIn, password);
 
-        if (response && response.data && +response.data.EC === 0) {
-            toast.success(response.data.EM);
+        if (response && +response.EC === 0) {
+            toast.success(response.EM);
             let data = {
                 isAuthenticated: true,
                 token: "fake-token",
@@ -46,8 +46,8 @@ const SignIn = () => {
             window.location.reload();
         }
 
-        if (response && response.data && +response.data.EC !== 0) {
-            toast.error(response.data.EM);
+        if (response && +response.EC !== 0) {
+            toast.error(response.EM);
             setObjCheckInput({ isSignIn: false, isPassword: false });
         }
     };
@@ -71,8 +71,8 @@ const SignIn = () => {
         <div className="Sign-in-container">
             <div className="vh-100 d-flex justify-content-end">
                 <div className="content col-6 d-flex flex-column justify-content-center align-items-center">
-                    <div className="form-sign-up bg-white w-100 pt-5">
-                        <div className="sign-up-content d-flex flex-column m-auto gap-3">
+                    <div className="form-sign-in bg-white w-100 pt-5">
+                        <div className="sign-in-content d-flex flex-column m-auto gap-3">
                             <div className="wrap-input">
                                 <input
                                     type="text"
@@ -106,12 +106,12 @@ const SignIn = () => {
                                 />
                                 <span className="icon"></span>
                             </div>
-                            <a
-                                href="#"
+                            <Link
+                                to="/forgotpassword"
                                 className="btn-forgot-password text-end"
                             >
                                 Forgot password?
-                            </a>
+                            </Link>
 
                             <div className="wrap-btn">
                                 <div className="background-btn"></div>

@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios from "../setup/axios";
 const signUpNewUser = (username, email, phone, password) => {
-    return axios.post("http://localhost:8080/api/v1/signup", {
+    return axios.post("/api/v1/signup", {
         username,
         email,
         phone,
@@ -9,37 +9,50 @@ const signUpNewUser = (username, email, phone, password) => {
 };
 
 const SignIpUser = (valueSignIn, password) => {
-    return axios.post("http://localhost:8080/api/v1/signin", {
+    return axios.post("/api/v1/signin", {
         valueSignIn,
         password,
     });
 };
 
 const fetchAllUser = (page, limit) => {
-    return axios.get(
-        `http://localhost:8080/api/v1/user/show?page=${page}&limit=${limit}`
-    );
+    return axios.get(`/api/v1/user/show?page=${page}&limit=${limit}`);
 };
 
 const deleteUser = (user) => {
-    return axios.delete(`http://localhost:8080/api/v1/user/delete`, {
+    return axios.delete(`/api/v1/user/delete`, {
         data: { id: user.id },
     });
 };
 
 const fetchGroup = () => {
-    return axios.get("http://localhost:8080/api/v1/group/show");
+    return axios.get("/api/v1/group/show");
 };
 
 const createNewUser = (userData) => {
-    return axios.post("http://localhost:8080/api/v1/user/create", {
+    return axios.post("/api/v1/user/create", {
         ...userData,
     });
 };
 
 const updateUser = (userData) => {
-    return axios.put("http://localhost:8080/api/v1/user/update", {
+    return axios.put("/api/v1/user/update", {
         ...userData,
+    });
+};
+
+const authenticationUser = (emailUser) => {
+    return axios.post("/api/v1/authentication/send_email", { emailUser });
+};
+
+const verifyOtpUser = (email, otpUser) => {
+    return axios.post("/api/v1/authentication/verify_otp", { email, otpUser });
+};
+
+const changePasswordUser = (email, password) => {
+    return axios.put("/api/v1/reset_password", {
+        email,
+        password,
     });
 };
 export {
@@ -50,4 +63,7 @@ export {
     fetchGroup,
     createNewUser,
     updateUser,
+    authenticationUser,
+    verifyOtpUser,
+    changePasswordUser,
 };

@@ -34,10 +34,10 @@ function Users(props) {
 
     const fetchUsers = async () => {
         let response = await fetchAllUser(currentPage, currentLimit);
-        if (response && response.data && response.data.EC === 0) {
-            setTotalPages(response.data.DT.totalPages);
-            setListUser(response.data.DT.users);
-            if (response.data.DT.users.length === 0 && currentPage > 1) {
+        if (response && response.EC === 0) {
+            setTotalPages(response.DT.totalPages);
+            setListUser(response.DT.users);
+            if (response.DT.users.length === 0 && currentPage > 1) {
                 setCurrentPage(currentPage - 1);
             }
         } else {
@@ -60,12 +60,12 @@ function Users(props) {
 
     const confirmDelete = async () => {
         let response = await deleteUser(dataModal);
-        if (response && response.data && response.data.EC === 0) {
-            toast.success(response.data.EM);
+        if (response && response.EC === 0) {
+            toast.success(response.EM);
             await fetchUsers();
             setIsShowModalDelete(false);
         } else {
-            toast.error(response.data.EM);
+            toast.error(response.EM);
         }
     };
 

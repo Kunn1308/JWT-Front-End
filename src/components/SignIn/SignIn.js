@@ -2,10 +2,13 @@
 import "./SignIn.scss";
 import { FacebookIcon, GoogleIcon } from "../Icons/Icons";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { SignIpUser } from "../../services/userService";
+import { UserContext } from "../../context/UserContext";
+
 const SignIn = () => {
+    const { loginContext } = useContext(UserContext);
     const [valueSignIn, setValueSignIn] = useState("");
     const [password, setPassword] = useState("");
     const defaultValidInput = {
@@ -37,13 +40,19 @@ const SignIn = () => {
 
         if (response && +response.EC === 0) {
             toast.success(response.EM);
+            let token = response.DT.access_token;
+            let email = response.DT.email;
+            let username = response.DT.username;
+            let groupWithRoles = response.DT.groupWithRoles;
             let data = {
                 isAuthenticated: true,
-                token: "fake-token",
+                token,
+                account: { groupWithRoles, email, username },
             };
             sessionStorage.setItem("account", JSON.stringify(data));
+            loginContext(data);
             navigate("/users");
-            window.location.reload();
+            // window.location.reload();
         }
 
         if (response && +response.EC !== 0) {

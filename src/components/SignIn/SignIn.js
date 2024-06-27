@@ -2,7 +2,7 @@
 import "./SignIn.scss";
 import { FacebookIcon, GoogleIcon } from "../Icons/Icons";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { SignIpUser } from "../../services/userService";
 import { UserContext } from "../../context/UserContext";
@@ -49,10 +49,8 @@ const SignIn = () => {
                 token,
                 account: { groupWithRoles, email, username },
             };
-            sessionStorage.setItem("account", JSON.stringify(data));
             loginContext(data);
             navigate("/users");
-            // window.location.reload();
         }
 
         if (response && +response.EC !== 0) {
@@ -66,15 +64,6 @@ const SignIn = () => {
             handleSignIn();
         }
     };
-
-    useEffect(() => {
-        let session = sessionStorage.getItem("account");
-        if (session) {
-            navigate("/");
-            window.location.reload();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     return (
         <div className="Sign-in-container">

@@ -1,19 +1,14 @@
-import { useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { Navigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 const PrivateRoutes = ({ Component }) => {
     const { user } = useContext(UserContext);
-    let navigate = useNavigate();
-    useEffect(() => {
-        console.log(user);
-        let session = sessionStorage.getItem("account");
-        if (!session) {
-            navigate("/signin");
-            window.location.reload();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-    return <Component />;
+
+    if (user && user.isAuthenticated === true) {
+        return <Component />;
+    } else {
+        return <Navigate to="/signin" />;
+    }
 };
 
 export default PrivateRoutes;

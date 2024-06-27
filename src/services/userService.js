@@ -55,6 +55,10 @@ const changePasswordUser = (email, password) => {
         password,
     });
 };
+
+const getUserAccount = () => {
+    return axios.get("/api/v1/account");
+};
 export {
     signUpNewUser,
     SignIpUser,
@@ -66,4 +70,5 @@ export {
     authenticationUser,
     verifyOtpUser,
     changePasswordUser,
+    getUserAccount,
 };

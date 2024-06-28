@@ -49,6 +49,7 @@ const SignIn = () => {
                 token,
                 account: { groupWithRoles, email, username },
             };
+            localStorage.setItem("jwt", token);
             loginContext(data);
             navigate("/users");
         }

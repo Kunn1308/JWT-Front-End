@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import AppRoutes from "./routes/AppRoutes";
 import { UserContext } from "./context/UserContext";
 import { useContext } from "react";
-import { Audio } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 
 function App() {
     const { user } = useContext(UserContext);
@@ -14,15 +14,21 @@ function App() {
     return (
         <Router>
             {user && user.isLoading ? (
-                <Audio
-                    height="80"
-                    width="80"
-                    radius="9"
-                    color="green"
-                    ariaLabel="loading"
-                    wrapperStyle
-                    wrapperClass
-                />
+                <div className="loading-container">
+                    <RotatingLines
+                        visible={true}
+                        height="32"
+                        width="32"
+                        color="grey"
+                        strokeColor="#3fc2eb"
+                        strokeWidth="5"
+                        animationDuration="0.75"
+                        ariaLabel="rotating-lines-loading"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                    />
+                    <div>Loading data...</div>
+                </div>
             ) : (
                 <>
                     <div className="app-header">

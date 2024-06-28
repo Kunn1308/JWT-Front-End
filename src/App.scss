@@ -6,3 +6,11 @@
 a[href] {
     text-decoration: none;
 }
+
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    justify-content: center;
+}

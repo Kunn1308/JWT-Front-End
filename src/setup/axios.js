@@ -42,7 +42,7 @@ instance.interceptors.response.use(
                 toast.error(
                     `You don't have the permission to access this resource`
                 );
-                return Promise.reject(error);
+                return error.response.data;
             }
 
             // bad request

@@ -3,18 +3,21 @@ import { getUserAccount } from "../services/userService";
 const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
-    const [user, setUser] = useState({
+    const userDefault = {
+        isLoading: true,
         isAuthenticated: false,
         token: "",
         account: {},
-    });
+    };
+    const [user, setUser] = useState(userDefault);
 
     useEffect(() => {
         fetchUser();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const loginContext = (userData) => {
-        setUser(userData);
+        setUser({ ...userData, isLoading: false });
     };
 
     const fetchUser = async () => {
@@ -25,11 +28,14 @@ const UserProvider = ({ children }) => {
             let username = response.DT.username;
             let groupWithRoles = response.DT.groupWithRoles;
             let data = {
+                isLoading: false,
                 isAuthenticated: true,
                 token,
                 account: { groupWithRoles, email, username },
             };
             setUser(data);
+        } else {
+            setUser({ ...userDefault, isLoading: false });
         }
     };
 

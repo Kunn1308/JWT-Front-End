@@ -59,6 +59,10 @@ const changePasswordUser = (email, password) => {
 const getUserAccount = () => {
     return axios.get("/api/v1/account");
 };
+
+const signOutUser = () => {
+    return axios.post("/api/v1/signout");
+};
 export {
     signUpNewUser,
     SignIpUser,
@@ -71,4 +75,5 @@ export {
     verifyOtpUser,
     changePasswordUser,
     getUserAccount,
+    signOutUser,
 };

@@ -21,6 +21,7 @@ const AppRoutes = () => {
                 path="/projects"
                 element={<PrivateRoutes Component={Projects} />}
             />
+            <Route path="/about" element={<h1>About</h1>} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />

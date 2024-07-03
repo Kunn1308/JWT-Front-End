@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import PrivateRoutes from "./PrivateRoutes";
 import ForgotPassword from "../components/ForgotPassword/ForgotPassword";
 import ResetPassword from "../components/ResetPassword/ResetPassword";
+import Role from "../components/Role/Role";
 const AppRoutes = () => {
     const Projects = () => {
         return <div>Project</div>;
@@ -21,6 +22,7 @@ const AppRoutes = () => {
                 path="/projects"
                 element={<PrivateRoutes Component={Projects} />}
             />
+            <Route path="/roles" element={<PrivateRoutes Component={Role} />} />
             <Route path="/about" element={<h1>About</h1>} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />

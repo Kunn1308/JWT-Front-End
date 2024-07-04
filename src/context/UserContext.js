@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 
-import { getUserAccount, signOutUser } from "../services/userService";
-import { toast } from "react-toastify";
+import { getUserAccount } from "../services/userService";
 
 const UserContext = createContext();
 

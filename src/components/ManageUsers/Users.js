@@ -37,6 +37,7 @@ function Users(props) {
         if (response && response.EC === 0) {
             setTotalPages(response.DT.totalPages);
             setListUser(response.DT.users);
+            console.log(response.DT.users);
             if (response.DT.users.length === 0 && currentPage > 1) {
                 setCurrentPage(currentPage - 1);
             }
@@ -149,7 +150,7 @@ function Users(props) {
                                                             />
                                                         </button>
                                                         <button
-                                                            className="btn-delete "
+                                                            className="btn-delete"
                                                             onClick={() =>
                                                                 handleDeleteUser(
                                                                     user

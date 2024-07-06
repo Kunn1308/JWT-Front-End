@@ -3,4 +3,14 @@ const createNewRoles = (roles) => {
     return axios.post("/api/v1/role/create", [...roles]);
 };
 
-export { createNewRoles };
+const fetchAllRole = () => {
+    return axios.get("/api/v1/role/show");
+};
+
+const deleteRole = (role) => {
+    return axios.delete(`/api/v1/role/delete`, {
+        data: { id: role.id },
+    });
+};
+
+export { createNewRoles, fetchAllRole, deleteRole };

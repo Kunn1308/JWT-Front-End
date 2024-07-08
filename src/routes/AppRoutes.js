@@ -6,6 +6,7 @@ import PrivateRoutes from "./PrivateRoutes";
 import ForgotPassword from "../components/ForgotPassword/ForgotPassword";
 import ResetPassword from "../components/ResetPassword/ResetPassword";
 import Role from "../components/Role/Role";
+import GroupRole from "../components/GroupRole/GroupRole";
 const AppRoutes = () => {
     const Projects = () => {
         return <div>Project</div>;
@@ -23,6 +24,10 @@ const AppRoutes = () => {
                 element={<PrivateRoutes Component={Projects} />}
             />
             <Route path="/roles" element={<PrivateRoutes Component={Role} />} />
+            <Route
+                path="/group-role"
+                element={<PrivateRoutes Component={GroupRole} />}
+            />
             <Route path="/about" element={<h1>About</h1>} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />

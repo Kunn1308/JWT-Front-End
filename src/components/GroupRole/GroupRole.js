@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
 import { fetchGroup } from "../../services/userService";
 import { toast } from "react-toastify";
-import { fetchAllRole, fetchRoleByGroup } from "../../services/roleService";
+import {
+    assignRoleToGroup,
+    fetchAllRole,
+    fetchRoleByGroup,
+} from "../../services/roleService";
 import _ from "lodash";
 const GroupRole = () => {
     const [userGroups, setUserGroups] = useState([]);
     const [listRoles, setListRoles] = useState([]);
     const [selectRoleGroup, setSelectRoleGroup] = useState("");
     const [assignRolesByGroup, setAssignRolesByGroup] = useState([]);
+
     useEffect(() => {
         getGroups();
         getAllRoles();
@@ -42,6 +47,7 @@ const GroupRole = () => {
     const buildDataRolesByGroup = (groupRoles, allRoles) => {
         let result = [];
         if (allRoles && allRoles.length > 0) {
+            // eslint-disable-next-line array-callback-return
             allRoles.map((role) => {
                 let object = {
                     url: role.url,
@@ -71,7 +77,31 @@ const GroupRole = () => {
         }
         setAssignRolesByGroup(_assignRolesByGroup);
     };
-    const handleSave = async () => {};
+
+    const buildDataToSave = () => {
+        let result = {};
+        const _assignRolesByGroup = _.cloneDeep(assignRolesByGroup);
+        result.groupId = +selectRoleGroup;
+        let groupRoleFilter = _assignRolesByGroup.filter(
+            (item) => item.isAssigned === true
+        );
+        let finalGroupRole = groupRoleFilter.map((item) => {
+            let data = { groupId: +selectRoleGroup, roleId: +item.id };
+            return data;
+        });
+        result.groupRoles = finalGroupRole;
+        return result;
+    };
+
+    const handleSave = async () => {
+        let data = buildDataToSave();
+        let res = await assignRoleToGroup(data);
+        if (res && res.EC === 0) {
+            toast.success(res.EM);
+        } else {
+            toast.error(res.EM);
+        }
+    };
     return (
         <div className="group-role-container">
             <div className="container">
